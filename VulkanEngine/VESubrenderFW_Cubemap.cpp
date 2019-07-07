@@ -7,6 +7,8 @@
 
 
 #include "VEInclude.h"
+#include "VESubrenderFW_Cubemap.h"
+#include "VERendererForward.h"
 
 
 namespace ve {

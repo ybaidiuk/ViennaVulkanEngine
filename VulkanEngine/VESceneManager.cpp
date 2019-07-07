@@ -11,7 +11,7 @@
 #define STANDARD_MESH_CUBE		"models/standard/cube.obj/cube"
 #define STANDARD_MESH_INVCUBE	"models/standard/invcube.obj/cube"
 #define STANDARD_MESH_PLANE		"models/standard/plane.obj/plane"
-#define STANDARD_MESH_SPHERE	"models/standard/sphere.obj/sphere"
+#define STANDARD_MESH_SPHERE	    "models/standard/sphere.obj/sphere"
 
 
 namespace ve {

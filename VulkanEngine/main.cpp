@@ -96,7 +96,7 @@ namespace ve {
 			for (uint32_t i = 0; i < n; i++) {
 				float stride = 50.0f;
 				static std::default_random_engine e{12345};
-				static std::uniform_real_distribution<> d{ 1.0f, stride }; 
+				static std::uniform_real_distribution<> d{ 1.0f, stride };
 
 				VESceneNode *e2 = m_pSceneManager->loadModel("The Cube" + std::to_string(i), "models/test/crate0", "cube.obj");
 				e2->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3( d(e) - stride/2.0f, d(e)/2.0f, d(e) - stride/2.0f)));
@@ -105,12 +105,34 @@ namespace ve {
 
 		}
 
+        void createLights(uint32_t n)
+        {
+            for(uint32_t i = 0; i < n; i++) {
+                std::string name = "point_light" + std::to_string(i);
+                float stride = 50.0f;
+                static std::default_random_engine e{ 12345 };
+                static std::uniform_real_distribution<> d{ 1.0f, stride };
+                VELight *light = new VEPointLight(name);
+                light->m_col_ambient = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+                light->m_col_diffuse = glm::vec4(0.99f / n, 0.99f / n, 0.6f / n, 1.0f);
+                light->m_col_specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+                light->m_param[0] = 100.0f;
+                m_pSceneManager->addSceneNode(light);
+                light->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(d(e) - stride / 2.0f, d(e) / 2.0f, d(e) - stride / 2.0f)));
+                m_pSceneManager->switchOnLight(light);
+                VESceneNode *eL = m_pSceneManager->loadModel(name + "_sphere", "models/test/sphere", "sphere.obj", 0, light);
+                eL->multiplyTransform(glm::scale(glm::vec3(0.02f, 0.02f, 0.02f)));
+                VEEntity *pE1 = (VEEntity*)getSceneManager()->getSceneNode(name + "_sphere/sphere.obj/default/Entity_0");
+                pE1->m_castsShadow = false;
+            }
+        }
+
 		///Load the first level into the game engine
 		//The engine uses Y-UP, Left-handed
 		void loadLevel() {
 
 			VESceneNode *sp1 = m_pSceneManager->createSkybox("The Sky", "models/test/sky/cloudy",
-			{ "bluecloud_ft.jpg", "bluecloud_bk.jpg", "bluecloud_up.jpg", "bluecloud_dn.jpg", "bluecloud_rt.jpg", "bluecloud_lf.jpg" });		
+			{ "bluecloud_ft.jpg", "bluecloud_bk.jpg", "bluecloud_up.jpg", "bluecloud_dn.jpg", "bluecloud_rt.jpg", "bluecloud_lf.jpg" });
 			RotatorListener *pRot = new RotatorListener("CubemapRotator", sp1, 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
 			getEnginePointer()->registerEventListener(pRot);
 
@@ -122,14 +144,15 @@ namespace ve {
 			VESceneNode *pointLight = getSceneManager()->getSceneNode("StandardPointLight");
 			VESceneNode *eL = m_pSceneManager->loadModel("The Light", "models/test/sphere", "sphere.obj", 0 , pointLight);
 			eL->multiplyTransform(glm::scale(glm::vec3(0.02f,0.02f,0.02f)));
-			VEEntity *pE = (VEEntity*)getSceneManager()->getSceneNode("The Light/sphere.obj/default/Entity_0");
-			pE->m_castsShadow = false;
+			VEEntity *pE1 = (VEEntity*)getSceneManager()->getSceneNode("The Light/sphere.obj/default/Entity_0");
+			pE1->m_castsShadow = false;
 
-			VESceneNode *e1 = m_pSceneManager->loadModel("The Cube",  "models/test/crate0", "cube.obj");
+            VESceneNode *e1 = m_pSceneManager->loadModel("The Cube",  "models/test/crate0", "cube.obj");
 			e1->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 1.0f, 1.0f)));
 			e1->multiplyTransform( glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 10.0f, 10.0f)));
 
-			createCubes(200);
+            createLights(10);
+			createCubes(10);
 			//VESceneNode *pSponza = m_pSceneManager->loadModel("Sponza", "models/sponza", "sponza.dae", aiProcess_FlipWindingOrder);
 			//pSponza->setTransform(glm::scale(glm::mat4(1.0f), glm::vec3(0.1f, 0.1f, 0.1f)));
 

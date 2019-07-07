@@ -1,6 +1,7 @@
 
 
 #include "VEInclude.h"
+#include "VESubrenderFW_Nuklear.h"
 
 
 namespace ve {
@@ -33,11 +34,11 @@ namespace ve {
 			nk_label(ctx, outbuffer, NK_TEXT_LEFT);
 
 			nk_layout_row_dynamic(ctx, 30, 1);
-			sprintf(outbuffer, "Shadowtime (ms): %4.1f", getRendererForwardPointer()->m_AvgCmdShadowTime*1000.0f);
+			sprintf(outbuffer, "Shadowtime (ms): %4.1f", getRendererShaderPointer()->m_AvgCmdShadowTime*1000.0f);
 			nk_label(ctx, outbuffer, NK_TEXT_LEFT);
 
 			nk_layout_row_dynamic(ctx, 30, 1);
-			sprintf(outbuffer, "Ligthtime (ms): %4.1f", getRendererForwardPointer()->m_AvgCmdLightTime*1000.0f);
+			sprintf(outbuffer, "Ligthtime (ms): %4.1f", getRendererShaderPointer()->m_AvgCmdLightTime*1000.0f);
 			nk_label(ctx, outbuffer, NK_TEXT_LEFT);
 
 		}

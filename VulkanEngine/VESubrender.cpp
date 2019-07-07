@@ -58,7 +58,7 @@ namespace ve {
 	*
 	*/
 	void VESubrender::bindDescriptorSetsPerFrame(	VkCommandBuffer commandBuffer, uint32_t imageIndex,
-													VECamera *pCamera, VELight *pLight, 
+													VECamera *pCamera, VELight *pLight,
 													std::vector<VkDescriptorSet> descriptorSetsShadow ) {
 
 		//set 0...cam UBO

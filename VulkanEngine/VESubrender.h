@@ -47,7 +47,8 @@ namespace ve {
 			VE_SUBRENDERER_TYPE_SKYPLANE,					///<Use a skyplane to create a sky box
 			VE_SUBRENDERER_TYPE_TERRAIN_WITH_HEIGHTMAP,		///<A tesselated terrain using a height map
 			VE_SUBRENDERER_TYPE_NUKLEAR,					///<A Nuklear based GUI
-			VE_SUBRENDERER_TYPE_SHADOW						///<Draw entities for the shadow pass
+			VE_SUBRENDERER_TYPE_SHADOW,						///<Draw entities for the shadow pass
+            VE_SUBRENDERER_TYPE_COMPOSER,					///<Draw images from g-buffer
 		};
 
 	protected:
@@ -95,12 +96,12 @@ namespace ve {
 		virtual VkSemaphore	draw(uint32_t imageIndex, VkSemaphore wait_semaphore) { return VK_NULL_HANDLE; };
 
 		virtual void	drawEntity(VkCommandBuffer commandBuffer, uint32_t imageIndex, VEEntity *entity);
-		
+
 		virtual void	addEntity( VEEntity *pEntity );
 		virtual void	removeEntity(VEEntity *pEntity);
 		///\returns the number of entities that this sub renderer manages
 		uint32_t		getNumberEntities() { return (uint32_t)m_entities.size(); };
-		
+
 		///return the layout of the local pipeline
 		VkPipelineLayout getPipelineLayout() { return m_pipelineLayout; };
 	};

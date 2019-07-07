@@ -317,14 +317,14 @@ namespace ve {
 											(uint32_t)getRendererPointer()->getSwapChainNumber(),
 											sizeUBO, m_uniformBuffers, m_uniformBuffersAllocation);
 
-			vh::vhRenderCreateDescriptorSets(getRendererForwardPointer()->getDevice(),
-				(uint32_t)getRendererForwardPointer()->getSwapChainNumber(),
-				getRendererForwardPointer()->getDescriptorSetLayoutPerObject(),
-				getRendererForwardPointer()->getDescriptorPool(),
+			vh::vhRenderCreateDescriptorSets(getRendererShaderPointer()->getDevice(),
+				(uint32_t)getRendererShaderPointer()->getSwapChainNumber(),
+                getRendererShaderPointer()->getDescriptorSetLayoutPerObject(),
+                getRendererShaderPointer()->getDescriptorPool(),
 				m_descriptorSetsUBO);
 
 			for (uint32_t i = 0; i < m_descriptorSetsUBO.size(); i++) {
-				vh::vhRenderUpdateDescriptorSet(getRendererForwardPointer()->getDevice(),
+				vh::vhRenderUpdateDescriptorSet(getRendererShaderPointer()->getDevice(),
 					m_descriptorSetsUBO[i],
 					{ m_uniformBuffers[i] },		//UBOs
 					{ sizeUBO },					//UBO sizes

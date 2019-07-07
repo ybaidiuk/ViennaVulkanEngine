@@ -6,11 +6,16 @@
 */
 
 
-#include "VEInclude.h"
+#include "VERendererForward.h"
+#include "VESubrenderFW_C1.h"
+#include "VESubrenderFW_D.h"
+#include "VESubrenderFW_DN.h"
+#include "VESubrenderFW_Cubemap.h"
+#include "VESubrenderFW_Cubemap2.h"
+#include "VESubrenderFW_Shadow.h"
+#include "VESubrenderFW_Skyplane.h"
+#include "VESubrenderFW_Nuklear.h"
 
-
-const int MAX_FRAMES_IN_FLIGHT = 2;
-const uint32_t SHADOW_MAP_DIM = 4096;
 
 
 namespace ve {
@@ -137,7 +142,7 @@ namespace ve {
 											&m_descriptorSetLayoutShadow);
 
 		//set 3, binding 0 : UBO per scene object: camera, light, entity
-		vh::vhRenderCreateDescriptorSetLayout(	getRendererForwardPointer()->getDevice(),
+		vh::vhRenderCreateDescriptorSetLayout(  getDevice(),
 												{ 1 },
 												{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER },
 												{ VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT , },

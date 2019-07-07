@@ -12,7 +12,6 @@
 
 #include "VEInclude.h"
 
-
 using namespace vh;
 
 namespace ve {
@@ -81,7 +80,12 @@ namespace ve {
 	*
 	*/
 	void VEEngine::createRenderer() {
+        #ifdef FORWARD_SHADER
 		m_pRenderer = new VERendererForward();
+        #endif
+        #ifdef DEFERRED_SHADER
+		m_pRenderer = new VERendererDeferred();
+        #endif
 	}
 
 	/**

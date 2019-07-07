@@ -34,6 +34,18 @@
     <Filter Include="Source Files\VHelper">
       <UniqueIdentifier>{97507648-312a-4693-9a61-5563a8f0123b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\VESubrender\Forward">
+      <UniqueIdentifier>{1951495b-7a5d-4b3f-97b0-f9b50c18840d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VESubrender\Deferred">
+      <UniqueIdentifier>{3fc672c0-b784-4b2f-9c0a-833ebdd033e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VESubrender\Forward">
+      <UniqueIdentifier>{49d64720-99de-4d87-aadb-b7a29b33e340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VESubrender\Deferred">
+      <UniqueIdentifier>{6a8df090-b61c-4aa4-b752-eabbcfa2d187}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VEEngine.h">
@@ -81,30 +93,6 @@
     <ClInclude Include="CLShape.h">
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="VESubrenderFW_C1.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_Cubemap.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_Cubemap2.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_D.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_DN.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_Nuklear.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_Shadow.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
-    <ClInclude Include="VESubrenderFW_Skyplane.h">
-      <Filter>Header Files\VESubrender</Filter>
-    </ClInclude>
     <ClInclude Include="VEEventListenerNuklearError.h">
       <Filter>Header Files\VEEventListener</Filter>
     </ClInclude>
@@ -119,6 +107,60 @@
     </ClInclude>
     <ClInclude Include="VHHelper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERendererDeferred.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERendererShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_C1.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_Cubemap.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_Cubemap2.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_D.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_DN.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_Nuklear.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_Shadow.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderFW_Skyplane.h">
+      <Filter>Header Files\VESubrender\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_C1.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_Composer.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_Cubemap.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_Cubemap2.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_D.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_DN.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_Shadow.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="VESubrenderDF_Skyplane.h">
+      <Filter>Header Files\VESubrender\Deferred</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,30 +203,6 @@
     <ClCompile Include="VEEventListenerNuklear.cpp">
       <Filter>Source Files\VEEventListener</Filter>
     </ClCompile>
-    <ClCompile Include="VESubrenderFW_C1.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_Cubemap.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_Cubemap2.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_D.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_DN.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_Nuklear.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_Shadow.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
-    <ClCompile Include="VESubrenderFW_Skyplane.cpp">
-      <Filter>Source Files\VESubrender</Filter>
-    </ClCompile>
     <ClCompile Include="VHBuffer.cpp">
       <Filter>Source Files\VHelper</Filter>
     </ClCompile>
@@ -220,6 +238,57 @@
     </ClCompile>
     <ClCompile Include="VEEventListenerNuklearDebug.cpp">
       <Filter>Source Files\VEEventListener</Filter>
+    </ClCompile>
+    <ClCompile Include="VERendererDeferred.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_C1.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_Cubemap.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_Cubemap2.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_D.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_DN.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_Nuklear.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_Shadow.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderFW_Skyplane.cpp">
+      <Filter>Source Files\VESubrender\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_C1.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_Composer.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_Cubemap.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_Cubemap2.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_D.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_DN.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_Shadow.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="VESubrenderDF_Skyplane.cpp">
+      <Filter>Source Files\VESubrender\Deferred</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

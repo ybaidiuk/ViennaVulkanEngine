@@ -10,7 +10,8 @@
 
 
 #include "VEInclude.h"
-
+#include "VESubrenderFW_Nuklear.h"
+#include "VERendererForward.h"
 
 
 
@@ -36,10 +37,10 @@ namespace ve {
 							getRendererPointer()->getPhysicalDevice(),
 							getRendererPointer()->getGraphicsQueue(),
 							(uint32_t)queueFamilyIndices.graphicsFamily,
-							getRendererForwardPointer()->getSwapChainFrameBuffers().data(),
-							(uint32_t)getRendererForwardPointer()->getSwapChainFrameBuffers().size(),
-							getRendererForwardPointer()->getSwapChainImageFormat(),
-							getRendererForwardPointer()->getDepthMap()->m_format,
+                            getRendererShaderPointer()->getSwapChainFrameBuffers().data(),
+							(uint32_t)getRendererShaderPointer()->getSwapChainFrameBuffers().size(),
+                            getRendererShaderPointer()->getSwapChainImageFormat(),
+							getRendererShaderPointer()->getDepthMap()->m_format,
 							NK_GLFW3_DEFAULT);
 
 		// /* Load Fonts: if none of these are loaded a default font will be used  */

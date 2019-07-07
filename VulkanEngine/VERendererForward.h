@@ -7,16 +7,15 @@
 
 #pragma once
 
+
+#include "VEInclude.h"
+
 #ifndef getRendererForwardPointer
 #define getRendererForwardPointer() g_pVERendererForwardSingleton
 #endif
 
-const uint32_t NUM_SHADOW_CASCADE = 6;
 
 namespace ve {
-
-
-	extern VERendererForward* g_pVERendererForwardSingleton;	///<Pointer to the only class instance 
 
 	class VEEngine;
 
@@ -31,17 +30,17 @@ namespace ve {
 
 	protected:
 		std::vector<VkCommandBuffer> m_commandBuffers = {};				///<the main command buffers for recording draw commands
-		
+
 		//per frame render resources
 		VkRenderPass				m_renderPassClear;					///<The first light render pass, clearing the framebuffers
 		VkRenderPass				m_renderPassLoad;					///<The second light render pass - no clearing of framebuffer
 
 		std::vector<VkFramebuffer>	m_swapChainFramebuffers;			///<Framebuffers for light pass
-		VETexture *					m_depthMap = nullptr;				///<the image depth map	
+		VETexture *					m_depthMap = nullptr;				///<the image depth map
 		std::vector<std::vector<VETexture *>>	m_shadowMaps;			///<the shadow maps - a list of map cascades
 
 		//per frame render resources for the shadow pass
-		VkRenderPass				 m_renderPassShadow;				///<The shadow render pass 
+		VkRenderPass				 m_renderPassShadow;				///<The shadow render pass
 		std::vector<std::vector<VkFramebuffer>>	 m_shadowFramebuffers;	///<list of Framebuffers for shadow pass (up to 6)
 		VkDescriptorSetLayout		 m_descriptorSetLayoutShadow;		///<Descriptor set layout for using shadow maps in the light pass
 		std::vector<VkDescriptorSet> m_descriptorSetsShadow;			///<Descriptor sets for usage of shadow maps in the light pass
@@ -100,6 +99,8 @@ namespace ve {
 		virtual VkExtent2D				getShadowMapExtent() { return m_shadowMaps[0][0]->m_extent; };
 	};
 
+
+	extern VERendererForward* g_pVERendererForwardSingleton;	///<Pointer to the only class instance
 }
 
 
