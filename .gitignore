@@ -11,3 +11,13 @@ renderdoc.cap
 */cmake_install.cmake
 */Makefile
 /external/VulkanSDK/
+/VulkanEngine/media/models/scenes
+/VulkanEngine/media/shader/RT/rmiss.spv
+/VulkanEngine/media/shader/RT/rgen.spv
+/VulkanEngine/media/shader/RT/rchit.spv
+/VulkanEngine/media/shader/RT/shadow_rmiss.spv
+/VulkanEngine/out/build/x64-Debug
+/VulkanEngine/assimp-vc140-mt.lib
+/VulkanEngine/assimp-vc140-mt.dll
+/VulkanEngine/dna.txt
+/VulkanEngine/main_original.cpp

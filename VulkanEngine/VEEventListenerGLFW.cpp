@@ -232,14 +232,14 @@ namespace ve {
 
 			VkExtent2D extent = getWindowPointer()->getExtent();
 			uint32_t imageSize = extent.width * extent.height * 4;
-			VkImage image = getRendererPointer()->getSwapChainImage();
+			VkImage image = getEnginePointer()->getRenderer()->getSwapChainImage();
 
 			uint8_t *dataImage = new uint8_t[imageSize];
 
-			vh::vhBufCopySwapChainImageToHost(getRendererPointer()->getDevice(), 
-				getRendererPointer()->getVmaAllocator(),
-				getRendererPointer()->getGraphicsQueue(), 
-				getRendererPointer()->getCommandPool(),
+			vh::vhBufCopySwapChainImageToHost(getEnginePointer()->getRenderer()->getDevice(),
+                getEnginePointer()->getRenderer()->getVmaAllocator(),
+                getEnginePointer()->getRenderer()->getGraphicsQueue(),
+                getEnginePointer()->getRenderer()->getCommandPool(),
 				image, VK_FORMAT_R8G8B8A8_UNORM,
 				VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 				dataImage, extent.width, extent.height, imageSize);
@@ -253,41 +253,6 @@ namespace ve {
 			m_makeScreenshot = false;
 		}
 
-		if (m_makeScreenshotDepth) {
-
-			VETexture *map = getRendererForwardPointer()->getShadowMap( getRendererPointer()->getImageIndex() )[0];
-			//VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-			VkImageLayout layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-
-			VkExtent2D extent = map->m_extent;
-			uint32_t imageSize = extent.width * extent.height;
-			VkImage image = map->m_image;
-
-			float *dataImage = new float[imageSize];
-			gli::byte *dataImage2 = new gli::byte[imageSize];
-
-			vh::vhBufCopyImageToHost(getRendererPointer()->getDevice(), 
-				getRendererPointer()->getVmaAllocator(),
-				getRendererPointer()->getGraphicsQueue(), 
-				getRendererPointer()->getCommandPool(),
-				image, map->m_format, VK_IMAGE_ASPECT_DEPTH_BIT, layout,
-				(gli::byte*)dataImage, extent.width, extent.height, imageSize * 4);
-
-			for (uint32_t v = 0; v < extent.height; v++) {
-				for (uint32_t u = 0; u < extent.width; u++) {
-					dataImage2[v*extent.width + u] = (gli::byte)((dataImage[v*extent.width + u]-0.5)*256.0f*2.0f);
-					//std::cout << dataImage[v*extent.width + u] << " ";
-				}
-			}
-
-			std::string name("media/screenshots/screenshot" + std::to_string(m_numScreenshot) + ".jpg");
-			stbi_write_jpg(name.c_str(), extent.width, extent.height, 1, dataImage2, extent.width);
-			delete[] dataImage;
-			delete[] dataImage2;
-
-			m_numScreenshot++;
-			m_makeScreenshotDepth = false;
-		}
 	};
 
 

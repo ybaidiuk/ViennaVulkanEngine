@@ -45,7 +45,7 @@ namespace ve {
 		createRenderer();					//create a renderer
 		createSceneManager();				//create a scene manager
 		createWindow();						//create a window
-		m_pWindow->initWindow(800, 600);	//inittialize the window
+		m_pWindow->initWindow(1280, 720);	//inittialize the window
 
 		m_threadPool = new ThreadPool(0); //worker threads
 
@@ -87,7 +87,16 @@ namespace ve {
 	*
 	*/
 	void VEEngine::createRenderer() {
-		m_pRenderer = new VERendererForward();
+        m_pForwardRenderer = new VERendererForward();
+        m_pRTRenderer = new VERendererRT();
+		if (m_ray_tracing)
+		{
+			m_pRenderer = m_pRTRenderer;
+		}
+		else
+		{
+			m_pRenderer = m_pForwardRenderer;
+		}
 	}
 
 	/**
@@ -161,6 +170,10 @@ namespace ve {
 		if (m_debug) {
 			extensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 			//extensions.push_back("VK_EXT_debug_report");
+		}
+		if (m_ray_tracing)
+		{
+			extensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 		}
 		return extensions;
 	};
@@ -506,6 +519,10 @@ namespace ve {
 		std::chrono::high_resolution_clock::time_point t_prev = t_start;
 		std::chrono::high_resolution_clock::time_point t_now;
 
+		if (m_ray_tracing)
+		{
+			m_pRenderer->initAccelerationStructures();
+		}
 		while ( !m_end_running) {
 			m_dt = vh::vhTimeDuration( t_prev );
 			m_AvgFrameTime = vh::vhAverage( (float)m_dt, m_AvgFrameTime );
@@ -538,7 +555,7 @@ namespace ve {
 			//update world matrices and send them to the GPU
 
 			t_now = vh::vhTimeNow();
-			getSceneManagerPointer()->updateSceneNodes( getRendererPointer()->getImageIndex());	//update scene node UBOs
+			getSceneManagerPointer()->updateSceneNodes( getEnginePointer()->getRenderer()->getImageIndex());	//update scene node UBOs
 			m_AvgUpdateTime = vh::vhAverage(vh::vhTimeDuration(t_now), m_AvgUpdateTime);
 
 			//----------------------------------------------------------------------------------
@@ -602,7 +619,7 @@ namespace ve {
 
 		//camera parent is used for translations
 		VESceneNode *cameraParent = getSceneManagerPointer()->createSceneNode(	"StandardCameraParent", getRoot(), 
-																				glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 10.0f, 0.0f)));
+																				glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 10.0f, -10.0f)));
 
 		//camera can only do yaw (parent y-axis) and pitch (local x-axis) rotations
 		VkExtent2D extent = getWindowPointer()->getExtent();
@@ -614,26 +631,27 @@ namespace ve {
 		camera->lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		getSceneManagerPointer()->setCamera(camera);
 
-		VELight *light4 = (VESpotLight *)getSceneManagerPointer()->createLight("StandardAmbientLight", VELight::VE_LIGHT_TYPE_AMBIENT, camera);
-		light4->m_col_ambient = glm::vec4(0.3f, 0.3f, 0.3f, 1.0f);
-
 		//use one light source
+        /*
 		VELight *light1 = (VEDirectionalLight *)getSceneManagerPointer()->createLight("StandardDirLight", VELight::VE_LIGHT_TYPE_DIRECTIONAL, getRoot());     //new VEDirectionalLight("StandardDirLight");
 		light1->lookAt(glm::vec3(0.0f, 20.0f, -20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		light1->m_col_diffuse = glm::vec4(0.9f, 0.9f, 0.9f, 1.0f);
 		light1->m_col_specular = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
 		
-		VELight *light3 = (VEPointLight *)getSceneManagerPointer()->createLight("StandardPointLight", VELight::VE_LIGHT_TYPE_POINT, camera); //new VEPointLight("StandardPointLight");		//sphere is attached to this!
-		light3->m_col_diffuse = glm::vec4(0.99f, 0.99f, 0.6f, 1.0f);
-		light3->m_col_specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		light3->m_param[0] = 200.0f;
-		light3->multiplyTransform(glm::translate(glm::vec3(0.0f, 0.0f, 15.0f)));
-
+		
 		VELight *light2 = (VESpotLight *)getSceneManagerPointer()->createLight("StandardSpotLight", VELight::VE_LIGHT_TYPE_SPOT, camera);  
 		light2->m_col_diffuse = glm::vec4(0.99f, 0.6f, 0.6f, 1.0f);
 		light2->m_col_specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 		light2->m_param[0] = 200.0f;
-		light2->multiplyTransform(glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)));
+		light2->multiplyTransform(glm::translate(glm::vec3(1.0f, -1.0f, 0.0f)));
+        */
+        VELight *light3 = (VEPointLight *)getSceneManagerPointer()->createLight("StandardPointLight", VELight::VE_LIGHT_TYPE_POINT, camera); //new VEPointLight("StandardPointLight");		//sphere is attached to this!
+        light3->m_col_ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
+        light3->m_col_diffuse = glm::vec4(0.9f, 0.9f, 0.9f, 1.0f);
+        light3->m_col_specular = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
+        light3->m_param[0] = 200.0f;
+        light3->multiplyTransform(glm::translate(glm::vec3(-2.0f, -2.0f, 5.0f)));
+
 
 		registerEventListeners();	
 	}

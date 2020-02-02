@@ -15,8 +15,11 @@ struct cameraData_t {
   mat4 camModel;
   mat4 camView;
   mat4 camProj;
+  mat4 camModelInv;
+  mat4 camViewInv;
+  mat4 camProjInv;
   vec4 param;
-  vec4 padding[3];
+  vec4 padding[7];
 };
 
 struct lightData_t {
