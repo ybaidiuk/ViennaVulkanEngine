@@ -154,39 +154,17 @@ namespace ve {
 			VEEngine::registerEventListeners();
 
 			registerEventListener(new LevelListener("LevelListener"), { veEvent::VE_EVENT_KEYBOARD });
-			registerEventListener(new LightListener("LightListener"), { veEvent::VE_EVENT_KEYBOARD });
-			//registerEventListener(new VEEventListenerNuklearDebug("NuklearDebugListener"), { veEvent::VE_EVENT_DRAW_OVERLAY});
 		};
 
-		///create many cubes
-		void createCubes(uint32_t n, VESceneNode *parent ) {
-
-			float stride = 300.0f;
-			static std::default_random_engine e{12345};
-			static std::uniform_real_distribution<> d{ 1.0f, stride }; 
-			static std::uniform_real_distribution<> r{ -1.0f, 1.0f };
-			static std::uniform_real_distribution<> v{ 0.1f, 5.0f };
-			static std::uniform_real_distribution<> dur{ 900.3f, 1000.0f };
-
-			VEMesh *pMesh;
-			VECHECKPOINTER( pMesh = getSceneManagerPointer()->getMesh("media/models/test/crate0/cube.obj/cube") );
-
-			VEMaterial *pMat;
-			VECHECKPOINTER( pMat = getSceneManagerPointer()->getMaterial("media/models/test/crate0/cube.obj/cube") );
-
-			for (uint32_t i = 0; i < n; i++) {		
-				VESceneNode *pNode;
-				VECHECKPOINTER( pNode = getSceneManagerPointer()->createSceneNode("The Node" + std::to_string(i), parent) );
-				pNode->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3( d(e) - stride/2.0f, d(e)/2.0f, d(e) - stride/2.0f)));
-				registerEventListener( new RotatorListener("RotatorListener" + std::to_string(i), pNode, 0.01f, glm::vec3(0.0f, 1.0f, 0.0f)), { veEvent::VE_EVENT_FRAME_STARTED, veEvent::VE_EVENT_DELETE_NODE } );
-
-				VEEntity *e2;
-				VECHECKPOINTER( e2 = getSceneManagerPointer()->createEntity("The Cube" + std::to_string(i), pMesh, pMat, pNode ) );
-				registerEventListener(new RotatorListener("RotatorListener2" + std::to_string(i), e2, v(e), glm::vec3(r(e), r(e), r(e))), { veEvent::VE_EVENT_FRAME_STARTED, veEvent::VE_EVENT_DELETE_NODE });
-				//registerEventListener( new BlinkListener("BlinkListener" + std::to_string(i), e2, dur(e) ), { veEvent::VE_EVENT_FRAME_STARTED, veEvent::VE_EVENT_DELETE_NODE });
-			}
-
-		}
+        void createLegoMan(VESceneNode *parent){
+            VESceneNode *plane;
+            VECHECKPOINTER(plane = getSceneManagerPointer()->loadModel("LegoMan", "media/models/test/plane", "14082_WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.obj"));
+            plane->multiplyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(5.f, 5.f, 5.f)));
+            plane->multiplyTransform(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+            plane->multiplyTransform(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+            plane->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 15.0f)));
+            parent->addChild(plane);
+        }
 
 		///create many lights
 		void createLights(uint32_t n, VESceneNode *parent) {
@@ -217,19 +195,6 @@ namespace ve {
 			VESceneNode *pScene;
 			VECHECKPOINTER( pScene = getSceneManagerPointer()->createSceneNode("Level 1", getRoot()) );
 	
-			//scene models
-
-			/*
-            VESceneNode *sp1;
-			VECHECKPOINTER( sp1 = getSceneManagerPointer()->createSkybox("The Sky", "media/models/test/sky/cloudy",
-										{	"bluecloud_ft.jpg", "bluecloud_bk.jpg", "bluecloud_up.jpg",
-											"bluecloud_dn.jpg", "bluecloud_rt.jpg", "bluecloud_lf.jpg" }, pScene)  );
-
-			RotatorListener *pRot;
-			VECHECKPOINTER( pRot = new RotatorListener("CubemapRotator", sp1, 0.01f, glm::vec3(0.0f, 1.0f, 0.0f)) );
-			getEnginePointer()->registerEventListener(pRot, { veEvent::VE_EVENT_DELETE_NODE, veEvent::VE_EVENT_FRAME_STARTED });
-            */
-             
 			VESceneNode *e4;
 			VECHECKPOINTER( e4 = getSceneManagerPointer()->loadModel("The Plane", "media/models/test", "plane_t_n_s.obj",0, pScene) );
 			e4->setTransform(glm::scale(glm::mat4(1.0f), glm::vec3(1000.0f, 1.0f, 1000.0f)));
@@ -238,28 +203,12 @@ namespace ve {
 			VECHECKPOINTER( pE4 = (VEEntity*)getSceneManagerPointer()->getSceneNode("The Plane/plane_t_n_s.obj/plane/Entity_0") );
 			pE4->setParam( glm::vec4(1000.0f, 1000.0f, 0.0f, 0.0f) );
 
-			VESceneNode *pointLight = getSceneManagerPointer()->getSceneNode("StandardPointLight");
-			if (pointLight != nullptr) {
-				VESceneNode *eL;
-				VECHECKPOINTER(eL = getSceneManagerPointer()->loadModel("The Light", "media/models/test/sphere", "sphere.obj", 0, pointLight));
-				eL->multiplyTransform(glm::scale(glm::vec3(0.02f, 0.02f, 0.02f)));
-
-				VEEntity *pE;
-				VECHECKPOINTER( pE = (VEEntity*)getSceneManagerPointer()->getSceneNode("The Light/sphere.obj/default/Entity_0"));
-				pE->m_castsShadow = false;
-			}
-
 			VESceneNode *e1;
 			VECHECKPOINTER( e1 = getSceneManagerPointer()->loadModel("The Cube", "media/models/test/crate0", "cube.obj"));
 			e1->multiplyTransform( glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 10.0f, 10.0f)));
 			e1->multiplyTransform( glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 5.0f, 10.0f)));
 			pScene->addChild(e1);
-
-			createCubes(1000, pScene);
-			//createLights(10, pScene );
-			//VESceneNode *pSponza = m_pSceneManager->loadModel("Sponza", "models/sponza", "sponza.dae", aiProcess_FlipWindingOrder);
-			//pSponza->setTransform(glm::scale(glm::mat4(1.0f), glm::vec3(0.1f, 0.1f, 0.1f)));
-
+            createLegoMan(pScene);
 		};
 	};
 }
