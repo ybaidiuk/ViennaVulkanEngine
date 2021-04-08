@@ -156,7 +156,7 @@ namespace ve {
 			registerEventListener(new LevelListener("LevelListener"), { veEvent::VE_EVENT_KEYBOARD });
 		};
 
-        void createLegoMan(VESceneNode *parent){
+        void createPlane(VESceneNode *parent){
             VESceneNode *plane;
             VECHECKPOINTER(plane = getSceneManagerPointer()->loadModel("LegoMan", "media/models/test/plane", "14082_WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.obj"));
             plane->multiplyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(5.f, 5.f, 5.f)));
@@ -208,7 +208,7 @@ namespace ve {
 			e1->multiplyTransform( glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 10.0f, 10.0f)));
 			e1->multiplyTransform( glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 5.0f, 10.0f)));
 			pScene->addChild(e1);
-            createLegoMan(pScene);
+            createPlane(pScene);
 		};
 	};
 }
