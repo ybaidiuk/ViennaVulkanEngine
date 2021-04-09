@@ -106,7 +106,7 @@ namespace ve {
 	*/
 	void VEEngine::registerEventListeners() {
 		registerEventListener( new VEEventListenerGLFW("StandardEventListener")); //register a standard listener
-//		registerEventListener( new VEEventListenerCustom("CustomEventListener"));
+		registerEventListener( new VEEventListenerCustom("CustomEventListener"));
 	}
 
 

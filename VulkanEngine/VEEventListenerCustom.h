@@ -36,7 +36,7 @@ namespace ve {
         float m_time_sum = 0;
 
         void onFrameEnded(veEvent event) override;
-//		virtual bool onKeyboard(veEvent event);
+		bool onKeyboard(veEvent event) override;
 //		virtual bool onMouseMove(veEvent event);
 //		virtual bool onMouseButton(veEvent event);
 //		virtual bool onMouseScroll(veEvent event);
