@@ -1,5 +1,5 @@
 Task 2:
-OK 1. Put obj (hand on scene)
-2. assign 2 buttons to rotate on local Y axis this Object.
-3. assign 2 buttons to move Object forward and backward.
+DONE 1. Put obj (hand on scene)
+DONE 2. assign 2 buttons to rotate on local Y axis this Object.
+DONE 3. assign 2 buttons to move Object forward and backward.
 (4.) maybe catching some smaller cube is totally fine or a small racing game fits also, but if you want you can also make use of bumping.

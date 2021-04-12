@@ -54,12 +54,12 @@ namespace ve {
             case GLFW_KEY_2 :
                 translate = glm::vec4(0.0, 0.0, -1.0, 1.0);
                 break;
-            case GLFW_KEY_KP_4 : //rotation y right todo
+            case GLFW_KEY_KP_4 : //rotation y right
             case GLFW_KEY_4 :
                 angle = (float) event.dt * -1.0f;
                 rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
                 break;
-            case GLFW_KEY_KP_6 : //rotation y right todo
+            case GLFW_KEY_KP_6 : //rotation y right
             case GLFW_KEY_6 :
                 angle = (float) event.dt * 1.0f;
                 rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
@@ -71,14 +71,17 @@ namespace ve {
         VESceneNode *plane = getSceneManagerPointer()->getSceneNode("Plane");
         float speed = 5.f;
 
+        //rotation
+        glm::vec3 old_pos = plane->getPosition();
+        plane->setPosition(glm::vec3(0, 0, 0));
+        glm::vec3 rot3 = glm::vec3(rot4.x, rot4.y, rot4.z);
+        plane->multiplyTransform(glm::rotate(angle, rot3));
+        plane->setPosition(old_pos);
+
         //moving
         glm::vec3 trans = speed * glm::vec3(translate.x, translate.y, translate.z);
-        plane->multiplyTransform(glm::translate(glm::mat4(1.0f), (float) event.dt * trans));
-
-        //rotation
-        glm::vec3 rot3 = glm::vec3(rot4.x, rot4.y, rot4.z);
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0), angle, rot3);
-        plane->multiplyTransform(rotate);
+        const glm::mat newPosition = glm::translate((float) event.dt * trans);
+        plane->multiplyTransform(newPosition);
 
         return true;
     }
