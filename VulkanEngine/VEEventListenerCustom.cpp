@@ -72,8 +72,6 @@ namespace ve {
                             return false;
                         }
 
-
-
                         for (auto dataImage : frames_vector) {
                             if (!dataImage) {
                                 continue;
@@ -86,7 +84,6 @@ namespace ve {
                         uint8_t endcode[] = {0, 0, 1, 0xb7};
                         fwrite(endcode, 1, sizeof(endcode), videoFile);
                         frames_vector.clear();
-                        encoder.cleanContext();
                     }
                 }
                 break;

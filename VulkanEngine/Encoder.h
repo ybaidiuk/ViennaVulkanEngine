@@ -12,26 +12,26 @@ extern "C" {
 #include "libavutil/imgutils.h"
 #include "libswscale/swscale.h"
 }
+
 #include <iostream>
 
 
 class Encoder {
 private:
     AVCodecID avCodecId = AV_CODEC_ID_MPEG2VIDEO;
-    AVCodec *avCodec;
-    AVCodecContext *avCodecContext;
-    SwsContext *swsContext;
+    AVCodec *avCodec = nullptr;
+    AVCodecContext *avCodecContext = nullptr;
+    SwsContext *swsContext = nullptr;
     uint64_t frame_counter = 0;
 
 public:
     Encoder() = default;
-
     ~Encoder() = default;
 
-    void initContext(size_t width, size_t height);
+    void initContext(uint32_t width, uint32_t height);
     void encode(AVFrame *frame, AVPacket *pkt, FILE *outfile);
-    void saveImageVectorToFile(uint8_t *dataImage, FILE *f);
-    void cleanContext();
+    void saveImageVectorToFile(uint8_t *dataImage, FILE *file);
+//    void cleanContext();
 };
 
 

@@ -4,7 +4,7 @@
 
 #include "Encoder.h"
 
-void Encoder::initContext(size_t width, size_t height) {
+void Encoder::initContext(uint32_t width, uint32_t height) {
     std::cout << "init context start" << std::endl;
     avCodec = avcodec_find_encoder(avCodecId);
     avCodecContext = avcodec_alloc_context3(avCodec);
@@ -23,7 +23,7 @@ void Encoder::initContext(size_t width, size_t height) {
     avCodecContext->pix_fmt = AV_PIX_FMT_YUV420P;
 
     if (avcodec_open2(avCodecContext, avCodec, NULL) < 0) {
-        fprintf(stderr, "could not open codec "+ avcodec_open2(avCodecContext, avCodec, NULL));
+        fprintf(stderr, "could not open codec " + avcodec_open2(avCodecContext, avCodec, NULL));
         exit(1);
     }
 
@@ -37,93 +37,59 @@ void Encoder::initContext(size_t width, size_t height) {
     std::cout << "init context end" << std::endl;
 }
 
-void Encoder::encode(AVFrame *frame, AVPacket *pkt, FILE *outfile)
-{
+void Encoder::encode(AVFrame *frame, AVPacket *pkt, FILE *outfile) {
     int ret;
 
     // send the frame to the encoder */
     ret = avcodec_send_frame(avCodecContext, frame);
-    if (ret < 0)
-    {
+    if (ret < 0) {
         fprintf(stderr, "error sending a frame for encoding\n");
         exit(1);
     }
 
-    while (ret >= 0)
-    {
+    while (ret >= 0) {
         int ret = avcodec_receive_packet(avCodecContext, pkt);
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
             return;
-        else if (ret < 0)
-        {
+        else if (ret < 0) {
             fprintf(stderr, "error during encoding\n");
             exit(1);
         }
 
-        //printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
         fwrite(pkt->data, 1, pkt->size, outfile);
         av_packet_unref(pkt);
-        av_frame_free(&frame);
     }
 }
 
-void Encoder::cleanContext()
-{
-    avcodec_free_context(&avCodecContext);
-    sws_freeContext(swsContext);
-}
-
-void Encoder::saveImageVectorToFile(uint8_t *dataImage, FILE *f)
-{
+void Encoder::saveImageVectorToFile(uint8_t *dataImage, FILE *file) {
     fflush(stdout);
 
-    auto frame = av_frame_alloc();
-    frame->format = avCodecContext->pix_fmt;
-    frame->width = avCodecContext->width;
-    frame->height = avCodecContext->height;
+    auto frameResult = av_frame_alloc();
+    frameResult->format = avCodecContext->pix_fmt;
+    frameResult->width = avCodecContext->width;
+    frameResult->height = avCodecContext->height;
 
-    auto rgbFrame = av_frame_alloc();
-    rgbFrame->format = AV_PIX_FMT_RGBA;
-    rgbFrame->width = avCodecContext->width;
-    rgbFrame->height = avCodecContext->height;
+    auto frameRGB = av_frame_alloc();
+    frameRGB->format = AV_PIX_FMT_RGBA;
+    frameRGB->width = avCodecContext->width;
+    frameRGB->height = avCodecContext->height;
 
-    if (av_frame_get_buffer(frame, 32) < 0)
-    {
-        fprintf(stderr, "could not alloc the frame data\n");
-        exit(1);
-    }
+    av_frame_get_buffer(frameResult, 32);
+    av_frame_make_writable(frameResult);
 
-    if (av_frame_get_buffer(rgbFrame, 32) < 0)
-    {
-        fprintf(stderr, "could not alloc the frame data\n");
-        exit(1);
-    }
-
-    if (av_frame_make_writable(frame) < 0)
-    {
-        fprintf(stderr, "Cannot make frame writeable\n");
-        exit(1);
-    }
-
-    if (av_frame_make_writable(rgbFrame) < 0)
-    {
-        fprintf(stderr, "Cannot make frame writeable: rgb Frame\n");
-        exit(1);
-    }
+    av_frame_get_buffer(frameRGB, 32);
+    av_frame_make_writable(frameRGB);
 
     auto pkt = av_packet_alloc();
-    if (!pkt)
-    {
-        fprintf(stderr, "Cannot alloc packet\n");
-        exit(1);
-    }
 
-    av_image_fill_arrays(rgbFrame->data, rgbFrame->linesize, dataImage, AV_PIX_FMT_RGBA, avCodecContext->width, avCodecContext->height, 1);
 
-    sws_scale(swsContext, (const uint8_t **)rgbFrame->data, rgbFrame->linesize, 0, avCodecContext->height,
-              frame->data, frame->linesize);
+    av_image_fill_arrays(frameRGB->data, frameRGB->linesize, dataImage, AV_PIX_FMT_RGBA, avCodecContext->width,
+                         avCodecContext->height, 1);
 
-    frame->pts = ++frame_counter;
-    encode(frame, pkt, f);
+    sws_scale(swsContext, (const uint8_t **) frameRGB->data, frameRGB->linesize, 0, avCodecContext->height,
+              frameResult->data, frameResult->linesize);
+
+    frameResult->pts = ++frame_counter;
+    encode(frameResult, pkt, file);
 }
 
