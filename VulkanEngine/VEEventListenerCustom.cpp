@@ -65,7 +65,7 @@ namespace ve {
                         VkExtent2D extent = getEnginePointer()->getWindow()->getExtent();
                         encoder.initContext(extent.width, extent.height);
 
-                        std::string videoFileName = "media/videos/video" + std::to_string(recording_counter) + ".mpg";
+                        std::string videoFileName = "media/videos/video" + std::to_string(recording_counter) + encoder.extensions;
                         FILE *videoFile = fopen(videoFileName.c_str(), "wb");
                         if (!videoFile) {
                             fprintf(stderr, "could not open %s\n", videoFileName.c_str());

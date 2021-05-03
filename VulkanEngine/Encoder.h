@@ -25,6 +25,7 @@ private:
     uint64_t frame_counter = 0;
 
 public:
+    const char *extensions = ".mpg";
     Encoder() = default;
     ~Encoder() = default;
 
