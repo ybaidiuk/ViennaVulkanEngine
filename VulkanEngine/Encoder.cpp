@@ -61,6 +61,7 @@ void Encoder::encode(AVFrame *frame, AVPacket *pkt, FILE *outfile) {
     }
 }
 
+// nachgefragt von Christian.
 void Encoder::saveImageVectorToFile(uint8_t *dataImage, FILE *file) {
     fflush(stdout);
 
@@ -81,7 +82,6 @@ void Encoder::saveImageVectorToFile(uint8_t *dataImage, FILE *file) {
     av_frame_make_writable(frameRGB);
 
     auto pkt = av_packet_alloc();
-
 
     av_image_fill_arrays(frameRGB->data, frameRGB->linesize, dataImage, AV_PIX_FMT_RGBA, avCodecContext->width,
                          avCodecContext->height, 1);
