@@ -4,6 +4,19 @@ project(vienna_vulkan_engine_cmake)
 set(CMAKE_CXX_STANDARD 20)
 
 
+find_path(AVCODEC_INCLUDE_DIR libavcodec/avcodec.h)
+find_library(AVCODEC_LIBRARY avcodec)
+
+find_path(AVFORMAT_INCLUDE_DIR libavformat/avformat.h)
+find_library(AVFORMAT_LIBRARY avformat)
+
+find_path(AVUTIL_INCLUDE_DIR libavutil/avutil.h)
+find_library(AVUTIL_LIBRARY avutil)
+
+find_path(AVDEVICE_INCLUDE_DIR libavdevice/avdevice.h)
+find_library(AVDEVICE_LIBRARY avdevice)
+
+
 include_directories(
         ../external/stb
         ../external/threadpool
@@ -25,4 +38,5 @@ add_executable(
         ../external/threadpool/ThreadPool.cpp
 )
 
-target_link_libraries(app vulkan glfw assimp)
+target_include_directories(app PRIVATE ${AVCODEC_INCLUDE_DIR} ${AVFORMAT_INCLUDE_DIR} ${AVUTIL_INCLUDE_DIR} ${AVDEVICE_INCLUDE_DIR})
+target_link_libraries(app PRIVATE vulkan glfw assimp ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${AVDEVICE_LIBRARY})

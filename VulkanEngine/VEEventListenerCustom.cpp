@@ -10,34 +10,24 @@
 namespace ve {
 
     void VEEventListenerCustom::onFrameEnded(veEvent event) {
-//        m_time_sum += (float) event.dt;
-//        if (m_time_sum >= 1) {
-//            m_screenshot_current_second = 0;
-//            m_time_sum = 0;
-//        }
-//
-//        if (m_screenshot_current_second < m_max_screenshot_per_sec) {
-//
-//            VkExtent2D extent = getWindowPointer()->getExtent();
-//            uint32_t imageSize = extent.width * extent.height * 4;
-//            VkImage image = getRendererPointer()->getSwapChainImage();
-//
-//            auto *dataImage = new uint8_t[imageSize];
-//
-//            vh::vhBufCopySwapChainImageToHost(getRendererPointer()->getDevice(),
-//                                              getRendererPointer()->getVmaAllocator(),
-//                                              getRendererPointer()->getGraphicsQueue(),
-//                                              getRendererPointer()->getCommandPool(),
-//                                              image, VK_FORMAT_R8G8B8A8_UNORM,
-//                                              VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-//                                              dataImage, extent.width, extent.height, imageSize);
-//
-//            m_numScreenshot++;
-//            m_screenshot_current_second++;
-//
-//            std::string name("media/screenshots/screenshot" + std::to_string(m_numScreenshot - 1) + ".jpg");
-//            stbi_write_jpg(name.c_str(), extent.width, extent.height, 4, dataImage, 4 * extent.width);
-//            delete[] dataImage;
+        if (is_recorded) {
+            VkExtent2D extent = getWindowPointer()->getExtent();
+            uint32_t imageSize = extent.width * extent.height * 4;
+            VkImage image = getRendererPointer()->getSwapChainImage();
+
+            auto *dataImage = new uint8_t[imageSize];
+
+            vh::vhBufCopySwapChainImageToHost(getRendererPointer()->getDevice(),
+                                              getRendererPointer()->getVmaAllocator(),
+                                              getRendererPointer()->getGraphicsQueue(),
+                                              getRendererPointer()->getCommandPool(),
+                                              image, VK_FORMAT_R8G8B8A8_UNORM,
+                                              VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+                                              dataImage, extent.width, extent.height, imageSize);
+
+            frames_vector.push_back(dataImage);
+        }
+
     }
 
     bool VEEventListenerCustom::onKeyboard(veEvent event) {
@@ -63,6 +53,42 @@ namespace ve {
             case GLFW_KEY_6 :
                 angle = (float) event.dt * 1.0f;
                 rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
+                break;
+            case GLFW_KEY_R : // start/stop recording
+                if (event.idata3 == GLFW_PRESS) {
+                    is_recorded = !is_recorded;
+                    if (is_recorded) {
+                        std::cout << "is_recorded start" << std::endl;
+                        recording_counter++;
+                    } else {
+                        std::cout << "is_recorded stop" << std::endl;
+                        auto extent = getEnginePointer()->getWindow()->getExtent();
+                        encoder.initContext(extent.width, extent.height);
+//
+//                        std::string videoFileName = "video" + std::to_string(recording_counter) + ".mpg";
+//                        FILE *videoFile = fopen(videoFileName.c_str(), "wb");
+//                        if (!videoFile) {
+//                            fprintf(stderr, "could not open %s\n", videoFileName.c_str());
+//                            return false;
+//                        }
+//
+//                        auto counter = 0;
+//
+//                        for (auto dataImage : frames_vector) {
+//                            if (!dataImage) {
+//                                continue;
+//                            }
+//                            encoder.saveImageBufferToFile(dataImage, videoFile, counter++);
+//                        }
+//
+//                        std::cout << "video was saved" + videoFileName << std::endl;
+//
+//                        uint8_t endcode[] = {0, 0, 1, 0xb7};
+//                        fwrite(endcode, 1, sizeof(endcode), videoFile);
+//                        frames_vector.clear();
+//                        encoder.cleanupContexts();
+                    }
+                }
                 break;
             default:
                 return false;

@@ -1,45 +1,27 @@
 /**
-	The Vienna Vulkan Engine
-	VEEventListenerGLFW.h
-	Purpose: Declare VEEventListenerGLFW class
-
 	@author Yevhen Baidiuk
 	@version 1.0 
-	@date 2019
+	@date 2021
 */
 
 #ifndef VEEVENTLISTENERCUSTOM_H
 #define VEEVENTLISTENERCUSTOM_H
 
+
+#include "Encoder.h"
+
 namespace ve {
 
-    /**
-    *
-    * \brief An event listener for GLFW events
-    *
-    * This is the default event listener for GLFW events. Basically it steers the standard camera around,
-    * just as you would expect from a first person shooter.
-    *
-    */
     class VEEventListenerCustom : public VEEventListener {
 
-    protected:
-//		bool  m_usePrevCursorPosition = false;			///<Can I use the previous cursor position for moving the camera?
-//		bool  m_rightButtonClicked = false;				///<Is the left button currently clicked?
-//		float m_cursorPrevX = 0;						///<Previous X position of cursor
-//		float m_cursorPrevY = 0;						///<Previous Y position of cursor
-//		bool  m_makeScreenshot = false;					///<Should I make a screeshot after frame is done?
-//		bool  m_makeScreenshotDepth = false;			///<Should I make a screeshot after frame is done?
-        uint32_t m_numScreenshot = 0;                    ///<Screenshot ID
-        const uint32_t m_max_screenshot_per_sec = 5;
-        uint32_t m_screenshot_current_second = 0;
-        float m_time_sum = 0;
+    private:
+        std::vector<uint8_t *> frames_vector;
+        uint32_t recording_counter = 0;
+        bool is_recorded = false;
+        Encoder encoder;
 
         void onFrameEnded(veEvent event) override;
-		bool onKeyboard(veEvent event) override;
-//		virtual bool onMouseMove(veEvent event);
-//		virtual bool onMouseButton(veEvent event);
-//		virtual bool onMouseScroll(veEvent event);
+        bool onKeyboard(veEvent event) override;
 
     public:
         ///Constructor
