@@ -62,31 +62,31 @@ namespace ve {
                         recording_counter++;
                     } else {
                         std::cout << "is_recorded stop" << std::endl;
-                        auto extent = getEnginePointer()->getWindow()->getExtent();
+                        VkExtent2D extent = getEnginePointer()->getWindow()->getExtent();
                         encoder.initContext(extent.width, extent.height);
-//
-//                        std::string videoFileName = "video" + std::to_string(recording_counter) + ".mpg";
-//                        FILE *videoFile = fopen(videoFileName.c_str(), "wb");
-//                        if (!videoFile) {
-//                            fprintf(stderr, "could not open %s\n", videoFileName.c_str());
-//                            return false;
-//                        }
-//
-//                        auto counter = 0;
-//
-//                        for (auto dataImage : frames_vector) {
-//                            if (!dataImage) {
-//                                continue;
-//                            }
-//                            encoder.saveImageBufferToFile(dataImage, videoFile, counter++);
-//                        }
-//
-//                        std::cout << "video was saved" + videoFileName << std::endl;
-//
-//                        uint8_t endcode[] = {0, 0, 1, 0xb7};
-//                        fwrite(endcode, 1, sizeof(endcode), videoFile);
-//                        frames_vector.clear();
-//                        encoder.cleanupContexts();
+
+                        std::string videoFileName = "media/videos/video" + std::to_string(recording_counter) + ".mpg";
+                        FILE *videoFile = fopen(videoFileName.c_str(), "wb");
+                        if (!videoFile) {
+                            fprintf(stderr, "could not open %s\n", videoFileName.c_str());
+                            return false;
+                        }
+
+
+
+                        for (auto dataImage : frames_vector) {
+                            if (!dataImage) {
+                                continue;
+                            }
+                            encoder.saveImageVectorToFile(dataImage, videoFile);
+                        }
+
+                        std::cout << "video was saved " + videoFileName << std::endl;
+
+                        uint8_t endcode[] = {0, 0, 1, 0xb7};
+                        fwrite(endcode, 1, sizeof(endcode), videoFile);
+                        frames_vector.clear();
+                        encoder.cleanContext();
                     }
                 }
                 break;

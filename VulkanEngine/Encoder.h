@@ -17,21 +17,22 @@ extern "C" {
 
 class Encoder {
 private:
-    AVCodecContext *m_avcodec_context;
-    SwsContext *m_img_convert_ctx;
-    AVCodecID codecId = AV_CODEC_ID_MPEG2VIDEO;
-    AVCodec *m_codec;
+    AVCodecID avCodecId = AV_CODEC_ID_MPEG2VIDEO;
+    AVCodec *avCodec;
+    AVCodecContext *avCodecContext;
+    SwsContext *swsContext;
+    uint64_t frame_counter = 0;
 
 public:
-    Encoder() {};
+    Encoder() = default;
 
-    ~Encoder() {};
+    ~Encoder() = default;
 
     void initContext(size_t width, size_t height);
-//    void encode(AVFrame *frame, AVPacket *pkt, FILE *outfile);
-//    void saveImageVectorToFile(uint8_t *dataImage, FILE *f, int position);
-//    void cleanContext();
+    void encode(AVFrame *frame, AVPacket *pkt, FILE *outfile);
+    void saveImageVectorToFile(uint8_t *dataImage, FILE *f);
+    void cleanContext();
 };
 
 
-#endif
+#endif // ENCODER_H
