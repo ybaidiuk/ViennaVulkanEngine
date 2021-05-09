@@ -62,8 +62,6 @@ namespace ve {
                         recording_counter++;
                     } else {
                         std::cout << "is_recorded stop" << std::endl;
-                        VkExtent2D extent = getEnginePointer()->getWindow()->getExtent();
-                        encoder.initContext(extent.width, extent.height);
 
                         std::string videoFileName = "media/videos/video" + std::to_string(recording_counter) + encoder.extensions;
                         FILE *videoFile = fopen(videoFileName.c_str(), "wb");

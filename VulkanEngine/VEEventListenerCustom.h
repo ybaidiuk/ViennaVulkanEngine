@@ -16,6 +16,7 @@ namespace ve {
 
     private:
         std::vector<uint8_t *> frames_vector;
+        VkExtent2D extent;
         uint32_t recording_counter = 0;
         bool is_recorded = false;
         Encoder encoder;
