@@ -6,6 +6,8 @@
 */
 
 #include "VEInclude.h"
+#include "VEEventListenerCustom.h"
+
 
 namespace ve {
 
@@ -25,7 +27,10 @@ namespace ve {
                                               VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
                                               dataImage, extent.width, extent.height, imageSize);
 
-            frames_vector.push_back(dataImage);
+//          SEND UDP
+            AVPacket *pkt = encoder.convertFrameToMPEG(dataImage);
+            udpSender.send(reinterpret_cast<char *>(pkt->data), 1400);
+//            av_packet_unref(pkt);
         }
 
     }
@@ -56,32 +61,11 @@ namespace ve {
                 break;
             case GLFW_KEY_R : // start/stop recording
                 if (event.idata3 == GLFW_PRESS) {
-                    is_recorded = !is_recorded;
-                    if (is_recorded) {
-                        std::cout << "is_recorded start" << std::endl;
-                        recording_counter++;
+                    id_udp_send = !id_udp_send;
+                    if (id_udp_send) {
+                        std::cout << "id_udp_send start" << std::endl;
                     } else {
-                        std::cout << "is_recorded stop" << std::endl;
-
-                        std::string videoFileName = "media/videos/video" + std::to_string(recording_counter) + encoder.extensions;
-                        FILE *videoFile = fopen(videoFileName.c_str(), "wb");
-                        if (!videoFile) {
-                            fprintf(stderr, "could not open %s\n", videoFileName.c_str());
-                            return false;
-                        }
-
-                        for (auto dataImage : frames_vector) {
-                            if (!dataImage) {
-                                continue;
-                            }
-                            encoder.saveImageVectorToFile(dataImage, videoFile);
-                        }
-
-                        std::cout << "video was saved " + videoFileName << std::endl;
-
-                        uint8_t endcode[] = {0, 0, 1, 0xb7};
-                        fwrite(endcode, 1, sizeof(endcode), videoFile);
-                        frames_vector.clear();
+                        std::cout << "id_udp_send stop" << std::endl;
                     }
                 }
                 break;

@@ -33,6 +33,7 @@ public:
     void encode(AVFrame *frame, AVPacket *pkt, FILE *outfile);
     void saveImageVectorToFile(uint8_t *dataImage, FILE *file);
 //    void cleanContext();
+    AVPacket * convertFrameToMPEG(uint8_t *dataImage);
 };
 
 

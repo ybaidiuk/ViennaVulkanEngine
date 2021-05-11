@@ -93,3 +93,56 @@ void Encoder::saveImageVectorToFile(uint8_t *dataImage, FILE *file) {
     encode(frameResult, pkt, file);
 }
 
+AVPacket * Encoder::convertFrameToMPEG(uint8_t *dataImage) {
+    fflush(stdout);
+
+    auto frameResult = av_frame_alloc();
+    frameResult->format = avCodecContext->pix_fmt;
+    frameResult->width = avCodecContext->width;
+    frameResult->height = avCodecContext->height;
+
+    auto frameRGB = av_frame_alloc();
+    frameRGB->format = AV_PIX_FMT_RGBA;
+    frameRGB->width = avCodecContext->width;
+    frameRGB->height = avCodecContext->height;
+
+    av_frame_get_buffer(frameResult, 32);
+    av_frame_make_writable(frameResult);
+
+    av_frame_get_buffer(frameRGB, 32);
+    av_frame_make_writable(frameRGB);
+
+    auto pkt = av_packet_alloc();
+
+    av_image_fill_arrays(frameRGB->data, frameRGB->linesize, dataImage, AV_PIX_FMT_RGBA, avCodecContext->width,
+                         avCodecContext->height, 1);
+
+    sws_scale(swsContext, (const uint8_t **) frameRGB->data, frameRGB->linesize, 0, avCodecContext->height,
+              frameResult->data, frameResult->linesize);
+
+    frameResult->pts = ++frame_counter;
+//    encode(frameResult, pkt, file);
+    int ret;
+
+    // send the frame to the encoder */
+    ret = avcodec_send_frame(avCodecContext, frameResult);
+    if (ret < 0) {
+        fprintf(stderr, "error sending a frame for encoding\n");
+        exit(1);
+    }
+
+    while (ret >= 0) {
+        int ret = avcodec_receive_packet(avCodecContext, pkt);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+            break;
+        else if (ret < 0) {
+            fprintf(stderr, "error during encoding\n");
+            exit(1);
+        }
+
+        return pkt;
+//        fwrite(pkt->data, 1, pkt->size, outfile);
+//        av_packet_unref(pkt);
+    }
+}
+
