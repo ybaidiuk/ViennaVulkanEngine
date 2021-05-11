@@ -28,7 +28,7 @@ namespace ve {
 
     public:
         ///Constructor
-        VEEventListenerCustom(std::string name) : VEEventListener(name) {};
+        VEEventListenerCustom(std::string name);
 
         ///Destructor
         ~VEEventListenerCustom();

@@ -11,9 +11,18 @@
 
 namespace ve {
 
+    VEEventListenerCustom::VEEventListenerCustom(std::string name) : VEEventListener(name) {
+        extent = getWindowPointer()->getExtent();
+        encoder.initContext(extent.width, extent.height);
+        udpSender.init("localhost", 8888);
+    };
+
+    VEEventListenerCustom::~VEEventListenerCustom() {
+        udpSender.closeSock();
+    }
+
     void VEEventListenerCustom::onFrameEnded(veEvent event) {
-        if (is_recorded) {
-            VkExtent2D extent = getWindowPointer()->getExtent();
+        if (id_udp_send) {
             uint32_t imageSize = extent.width * extent.height * 4;
             VkImage image = getRendererPointer()->getSwapChainImage();
 
