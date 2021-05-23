@@ -18,53 +18,6 @@ namespace ve {
 	bool g_gameLost = false;			//true... das Spiel wurde verloren
 	bool g_restart = false;			//true...das Spiel soll neu gestartet werden
 
-	//
-	//Zeichne das GUI
-	//
-	class EventListenerGUI : public VEEventListener {
-	protected:
-		
-		virtual void onDrawOverlay(veEvent event) {
-			VESubrenderFW_Nuklear * pSubrender = (VESubrenderFW_Nuklear*)getRendererPointer()->getOverlay();
-			if (pSubrender == nullptr) return;
-
-			struct nk_context * ctx = pSubrender->getContext();
-
-			if (!g_gameLost) {
-				if (nk_begin(ctx, "", nk_rect(0, 0, 200, 170), NK_WINDOW_BORDER )) {
-					char outbuffer[100];
-					nk_layout_row_dynamic(ctx, 45, 1);
-					sprintf(outbuffer, "Score: %03d", g_score);
-					nk_label(ctx, outbuffer, NK_TEXT_LEFT);
-
-					nk_layout_row_dynamic(ctx, 45, 1);
-					sprintf(outbuffer, "Time: %004.1lf", g_time);
-					nk_label(ctx, outbuffer, NK_TEXT_LEFT);
-				}
-			}
-			else {
-				if (nk_begin(ctx, "", nk_rect(500, 500, 200, 170), NK_WINDOW_BORDER )) {
-					nk_layout_row_dynamic(ctx, 45, 1);
-					nk_label(ctx, "Game Over", NK_TEXT_LEFT);
-					if (nk_button_label(ctx, "Restart")) {
-						g_restart = true;
-					}
-				}
-
-			};
-
-			nk_end(ctx);
-		}
-
-	public:
-		///Constructor of class EventListenerGUI
-		EventListenerGUI(std::string name) : VEEventListener(name) { };
-
-		///Destructor of class EventListenerGUI
-		virtual ~EventListenerGUI() {};
-	};
-
-
 	static std::default_random_engine e{ 12345 };					//Für Zufallszahlen
 	static std::uniform_real_distribution<> d{ -10.0f, 10.0f };		//Für Zufallszahlen
 

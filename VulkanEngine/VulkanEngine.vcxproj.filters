@@ -122,6 +122,9 @@
     <ClInclude Include="VEEventListenerGLFW.h">
       <Filter>Header Files\VEEventListener</Filter>
     </ClInclude>
+    <ClInclude Include="EventListenerGUI.h">
+      <Filter>Header Files\VEEventListener</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VEEngine.cpp">
@@ -227,6 +230,9 @@
       <Filter>Source Files\VHelper</Filter>
     </ClCompile>
     <ClCompile Include="VEEventListenerCustom.cpp">
+      <Filter>Source Files\VEEventListener</Filter>
+    </ClCompile>
+    <ClCompile Include="EventListenerGUI.cpp">
       <Filter>Source Files\VEEventListener</Filter>
     </ClCompile>
   </ItemGroup>
