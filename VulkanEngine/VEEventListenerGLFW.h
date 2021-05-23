@@ -4,7 +4,7 @@
 	Purpose: Declare VEEventListenerGLFW class
 
 	@author Helmut Hlavacs
-	@version 1.0 
+	@version 1.0
 	@date 2019
 */
 
@@ -40,7 +40,7 @@ namespace ve {
 
 	public:
 		///Constructor
-		VEEventListenerGLFW( std::string name ) : VEEventListener(name) { };
+		VEEventListenerGLFW(std::string name) : VEEventListener(name) { };
 		///Destructor
 		virtual ~VEEventListenerGLFW() {};
 	};

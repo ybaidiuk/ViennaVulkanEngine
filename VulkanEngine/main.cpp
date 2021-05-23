@@ -122,7 +122,15 @@ namespace ve {
 		virtual ~EventListenerCollision() {};
 	};
 
-	
+	void createPlane(VESceneNode* parent) {
+		VESceneNode* plane;
+		VECHECKPOINTER(plane = getSceneManagerPointer()->loadModel("Plane", "media/models/test/plane", "14082_WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.obj", aiProcess_FlipUVs | aiProcess_FlipWindingOrder));
+		plane->multiplyTransform(glm::scale(glm::mat4(1.0f), glm::vec3(5.f, 5.f, 5.f)));
+		plane->multiplyTransform(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+		plane->multiplyTransform(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		plane->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 15.0f)));
+		parent->addChild(plane);
+	}
 
 	///user defined manager class, derived from VEEngine
 	class MyVulkanEngine : public VEEngine {
@@ -172,6 +180,7 @@ namespace ve {
 			eParent->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(-10.0f, 1.0f, 10.0f)));
 			eParent->addChild(e1);
 
+			createPlane(pScene);
 			m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 		};
 	};

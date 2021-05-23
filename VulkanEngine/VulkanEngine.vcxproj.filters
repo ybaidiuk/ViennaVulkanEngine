@@ -68,9 +68,6 @@
     <ClInclude Include="VEMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VEEventListenerGLFW.h">
-      <Filter>Header Files\VEEventListener</Filter>
-    </ClInclude>
     <ClInclude Include="VEEventListenerNuklear.h">
       <Filter>Header Files\VEEventListener</Filter>
     </ClInclude>
@@ -118,6 +115,12 @@
     </ClInclude>
     <ClInclude Include="VHFunctions.h">
       <Filter>Header Files\VHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="VEEventListenerCustom.h">
+      <Filter>Header Files\VEEventListener</Filter>
+    </ClInclude>
+    <ClInclude Include="VEEventListenerGLFW.h">
+      <Filter>Header Files\VEEventListener</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="VHFunctions.cpp">
       <Filter>Source Files\VHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="VEEventListenerCustom.cpp">
+      <Filter>Source Files\VEEventListener</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
