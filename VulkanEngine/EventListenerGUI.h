@@ -1,23 +1,30 @@
 #ifndef EVENTLISTENERGUI_H
 #define EVENTLISTENERGUI_H
-
+#include "VEInclude.h"
 
 namespace ve {
 
-    class EventListenerGUI : public VEEventListener {
+	class EventListenerGUI : public VEEventListener {
 
-    protected:
-   
-        virtual void onDrawOverlay(veEvent event);
+	private:
+		char buf[256];
+		std::string openedNodeName;
 
-    public:
-        ///Constructor
-        EventListenerGUI(std::string name) : VEEventListener(name) {};
+	protected:
+		virtual void onDrawOverlay(veEvent event);
+		//virtual bool onKeyboard(veEvent event);
 
-        ///Destructor
-        ~EventListenerGUI() override {};
-    };
+		bool isLightNode(VESceneNode* node);
+		void addLightMenu(nk_context* ctx, VELight* light);
+		void addNodePosMenu(nk_context* ctx, VESceneNode* node);
+		
+
+	public:
+		///Constructor
+		EventListenerGUI(std::string name) : VEEventListener(name) {};
+
+		///Destructor
+		~EventListenerGUI() override {};
+	};
 }
-
-
 #endif

@@ -15,7 +15,6 @@
 #include "VEEventListener.h"
 #include "VEEventListenerGLFW.h"
 #include "VEEventListenerCustom.h"
-#include "EventListenerGUI.h"
 #include "VEEventListenerNuklear.h"
 #include "VEEventListenerNuklearDebug.h"
 #include "VEWindow.h"
@@ -34,7 +33,7 @@
 #include "VESubrenderFW_Shadow.h"
 #include "VERenderer.h"
 #include "VERendererForward.h"
-
+#include "EventListenerGUI.h"
 
 //use this macro to check the function result, if its not VK_SUCCESS then return the error
 #define VECHECKRESULT(x) { \
