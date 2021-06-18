@@ -19,7 +19,7 @@ namespace ve {
         uint32_t m_screenshot_current_second = 0;
         float m_time_sum = 0;
         UDPSend sender;
-        const char* adreess = "localhost";
+        const char* adreess = "127.0.0.1";
 
         void onFrameEnded(veEvent event) override;
         		virtual bool onKeyboard(veEvent event);
@@ -30,7 +30,15 @@ namespace ve {
     public:
         ///Constructor
         VEEventListenerCustom(std::string name) : VEEventListener(name) {
-            sender.init(adreess, 23042);
+            WSADATA wsaData;
+            auto wVersionRequested = MAKEWORD(2, 2);
+            auto err = WSAStartup(wVersionRequested, &wsaData);
+
+            if (err != 0) {
+                printf("WSAStartup failed with error: %d\n", err);
+            }
+
+            sender.init(adreess, 5000);
         };
 
         ///Destructor

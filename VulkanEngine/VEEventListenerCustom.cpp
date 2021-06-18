@@ -1,10 +1,3 @@
-/**
-* The Vienna Vulkan Engine
-*
-* (c) bei Yevhen Baidiuk, University of Vienna
-*
-*/
-
 #include "VEInclude.h"
 #include "VEEventListenerCustom.h"
 
@@ -73,7 +66,7 @@ namespace ve {
 			VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 			dataImage, extent.width, extent.height, imageSize);
 
-		char buff[20] = { "Fuck UNI" };
+		char buff[20] = "Fuck UNI";
 		sender.send(buff, sizeof(buff));
 
 	}
