@@ -35,7 +35,7 @@ namespace ve {
 				g_time = 30;
 				g_score = 0;
 				getSceneManagerPointer()->getSceneNode("The Cube Parent")->setPosition(glm::vec3(d(e), 1.0f, d(e)));
-				getEnginePointer()->m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
+				//getEnginePointer()->m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 				return;
 			}
 			if (g_gameLost) return;
@@ -99,7 +99,7 @@ namespace ve {
 			VEEngine::registerEventListeners();
 
 			registerEventListener(new EventListenerCollision("Collision"), { veEvent::VE_EVENT_FRAME_STARTED });
-			registerEventListener(new EventListenerGUI("GUI"), { veEvent::VE_EVENT_DRAW_OVERLAY, veEvent::VE_EVENT_KEYBOARD});
+			//registerEventListener(new EventListenerGUI("GUI"), { veEvent::VE_EVENT_DRAW_OVERLAY, veEvent::VE_EVENT_KEYBOARD});
 		};
 		
 
@@ -134,7 +134,7 @@ namespace ve {
 			eParent->addChild(e1);
 
 			createPlane(pScene);
-			m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
+			//m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 		};
 	};
 

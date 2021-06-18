@@ -125,6 +125,9 @@
     <ClInclude Include="EventListenerGUI.h">
       <Filter>Header Files\VEEventListener</Filter>
     </ClInclude>
+    <ClInclude Include="UDPSend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VEEngine.cpp">
@@ -234,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="EventListenerGUI.cpp">
       <Filter>Source Files\VEEventListener</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSend.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

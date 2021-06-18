@@ -1,3 +1,4 @@
+#include "UDPSend.h"
 #ifndef VEEVENTLISTENERCUSTOM_H
 #define VEEVENTLISTENERCUSTOM_H
 
@@ -17,8 +18,10 @@ namespace ve {
         const uint32_t m_max_screenshot_per_sec = 5;
         uint32_t m_screenshot_current_second = 0;
         float m_time_sum = 0;
+        UDPSend sender;
+        const char* adreess = "localhost";
 
-        //void onFrameEnded(veEvent event) override;
+        void onFrameEnded(veEvent event) override;
         		virtual bool onKeyboard(veEvent event);
         //		virtual bool onMouseMove(veEvent event);
         //		virtual bool onMouseButton(veEvent event);
@@ -26,7 +29,9 @@ namespace ve {
 
     public:
         ///Constructor
-        VEEventListenerCustom(std::string name) : VEEventListener(name) {};
+        VEEventListenerCustom(std::string name) : VEEventListener(name) {
+            sender.init(adreess, 23042);
+        };
 
         ///Destructor
         ~VEEventListenerCustom() override {};
