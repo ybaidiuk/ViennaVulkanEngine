@@ -1,6 +1,16 @@
 #include "VEInclude.h"
 #include "VEEventListenerCustom.h"
 
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+#include <libavutil/frame.h>
+#include <libavutil/imgutils.h>
+#include "libavutil/common.h"
+#include "libavutil/mathematics.h"
+}
+
 namespace ve {
 
 	bool VEEventListenerCustom::onKeyboard(veEvent event) {
@@ -66,9 +76,13 @@ namespace ve {
 			VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 			dataImage, extent.width, extent.height, imageSize);
 
-		char buff[20] = "Fuck UNI";
-		sender.send(buff, sizeof(buff));
+		if (firstTime) {
+			firstTime = false;
+			encoder.initContext(extent.width, extent.height);
+		}
+		encoder.convertAndSend(dataImage);
 
+		delete[] dataImage;
 	}
 
 }

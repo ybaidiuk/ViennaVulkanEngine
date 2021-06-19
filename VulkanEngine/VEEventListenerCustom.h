@@ -1,4 +1,4 @@
-#include "UDPSend.h"
+#include "Encoder.h"
 #ifndef VEEVENTLISTENERCUSTOM_H
 #define VEEVENTLISTENERCUSTOM_H
 
@@ -18,8 +18,11 @@ namespace ve {
         const uint32_t m_max_screenshot_per_sec = 5;
         uint32_t m_screenshot_current_second = 0;
         float m_time_sum = 0;
-        UDPSend sender;
-        const char* adreess = "127.0.0.1";
+        bool firstTime = true;
+        
+       
+        
+        Encoder encoder;
 
         void onFrameEnded(veEvent event) override;
         		virtual bool onKeyboard(veEvent event);
@@ -29,17 +32,7 @@ namespace ve {
 
     public:
         ///Constructor
-        VEEventListenerCustom(std::string name) : VEEventListener(name) {
-            WSADATA wsaData;
-            auto wVersionRequested = MAKEWORD(2, 2);
-            auto err = WSAStartup(wVersionRequested, &wsaData);
-
-            if (err != 0) {
-                printf("WSAStartup failed with error: %d\n", err);
-            }
-
-            sender.init(adreess, 5000);
-        };
+        VEEventListenerCustom(std::string name) : VEEventListener(name) {};
 
         ///Destructor
         ~VEEventListenerCustom() override {};

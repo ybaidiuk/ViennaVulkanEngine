@@ -128,6 +128,9 @@
     <ClInclude Include="UDPSend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Encoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VEEngine.cpp">
@@ -239,6 +242,9 @@
       <Filter>Source Files\VEEventListener</Filter>
     </ClCompile>
     <ClCompile Include="UDPSend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Encoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

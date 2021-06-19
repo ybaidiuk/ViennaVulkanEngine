@@ -18,6 +18,14 @@ UDPSend::UDPSend() {
 
 
 void UDPSend::init(const char *address, int port ) {
+	WSADATA wsaData;
+	auto wVersionRequested = MAKEWORD(2, 2);
+	auto err = WSAStartup(wVersionRequested, &wsaData);
+
+	if (err != 0) {
+		printf("WSAStartup failed with error: %d\n", err);
+	}
+
 	if( sock ) closesocket(sock);
 	
 	sock = socket( PF_INET, SOCK_DGRAM, 0 );
@@ -29,11 +37,11 @@ void UDPSend::init(const char *address, int port ) {
 
 
 int UDPSend::send( char *buffer, int len ) {
-	char sendbuffer[65000];
+	char sendbuffer[650000];
 	
 	packetnum++;
 	
-	if( len>65000 ) {
+	if( len> 650000) {
 		return 0;
 	}
 	//if( packetnum%100==50) return -1;		//test for packet loss
