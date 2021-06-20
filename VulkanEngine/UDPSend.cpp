@@ -81,11 +81,3 @@ void UDPSend::closeSock() {
 	closesocket( sock );
 	sock=0;
 }
-
-
-
-
-
-
-
-

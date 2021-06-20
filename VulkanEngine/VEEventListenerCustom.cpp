@@ -73,8 +73,9 @@ namespace ve {
 			getRendererPointer()->getGraphicsQueue(),
 			getRendererPointer()->getCommandPool(),
 			image, VK_FORMAT_R8G8B8A8_UNORM,
-			VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-			dataImage, extent.width, extent.height, imageSize);
+			VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, dataImage, extent.width, extent.height, imageSize);
+
+		avcodec_register_all();
 
 		if (firstTime) {
 			firstTime = false;

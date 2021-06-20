@@ -15,13 +15,7 @@ extern "C" {
 
 class Encoder {
 private:
-    AVCodecID avCodecId = AV_CODEC_ID_MPEG2VIDEO;
-    const AVCodec* codec = avcodec_find_encoder(avCodecId);
-    //AVCodecContext* c;
-    //AVFrame* picture;
-    //AVPacket* pkt;
-    //int ret;
-  
+    const AVCodec* codec = avcodec_find_encoder(AV_CODEC_ID_MPEG2VIDEO);
     AVCodecContext* avCodecContext = avcodec_alloc_context3(codec);
     SwsContext* swsContext = nullptr;
     UDPSend udpSend;
@@ -35,7 +29,6 @@ public:
     virtual void initContext(uint32_t width, uint32_t height);
     void _encodeAndSend(AVFrame* frame, AVPacket* pkt);
     void convertAndSend(uint8_t* dataImage);
-    //    void cleanContext();
 };
 
 

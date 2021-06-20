@@ -1,4 +1,3 @@
-
 #include "Encoder.h"
 
 void Encoder::initContext(uint32_t width, uint32_t height) {
@@ -23,39 +22,13 @@ void Encoder::initContext(uint32_t width, uint32_t height) {
 	}
 
 	swsContext = sws_getContext(avCodecContext->width, avCodecContext->height, AV_PIX_FMT_RGBA,
-		avCodecContext->width, avCodecContext->height, AV_PIX_FMT_YUV420P, 0, NULL,
-		NULL, NULL);
+		avCodecContext->width, avCodecContext->height, AV_PIX_FMT_YUV420P, 0, NULL, NULL, NULL);
+
 	if (!swsContext) {
 		fprintf(stderr, "error creating swsContext");
 		exit(1);
 	}
 	std::cout << "init context end" << std::endl;
-}
-
-void Encoder::_encodeAndSend(AVFrame* frame, AVPacket* pkt) {
-	int ret;
-
-	// send the frame to the encoder */
-	ret = avcodec_send_frame(avCodecContext, frame);
-	if (ret < 0) {
-		fprintf(stderr, "error sending a frame for encoding\n");
-		exit(1);
-	}
-
-	while (ret >= 0) {
-		int ret = avcodec_receive_packet(avCodecContext, pkt);
-		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-			return;
-		else if (ret < 0) {
-			fprintf(stderr, "error during encoding\n");
-			exit(1);
-		}
-
-		//fwrite(pkt->data, 1, pkt->size, outfile);
-		udpSend.send((char*) pkt->data, pkt->size);
-		av_packet_unref(pkt);
-
-	}
 }
 
 // nachgefragt von Christian.
@@ -80,7 +53,7 @@ void Encoder::convertAndSend(uint8_t* dataImage) {
 
 	auto pkt = av_packet_alloc();
 	if (pkt == NULL) {
-		printf("okt is null");
+		printf("pkt is null");
 	}
 
 	av_image_fill_arrays(frameRGB->data, frameRGB->linesize, dataImage, AV_PIX_FMT_RGBA, avCodecContext->width,
@@ -88,7 +61,34 @@ void Encoder::convertAndSend(uint8_t* dataImage) {
 
 	sws_scale(swsContext, (const uint8_t**)frameRGB->data, frameRGB->linesize, 0, avCodecContext->height,
 		frameResult->data, frameResult->linesize);
-	
-		_encodeAndSend(frameResult, pkt);
-	
+
+	_encodeAndSend(frameResult, pkt);
+
+}
+
+
+void Encoder::_encodeAndSend(AVFrame* frame, AVPacket* pkt) {
+	int ret;
+
+	// send the frame to the encoder */
+	ret = avcodec_send_frame(avCodecContext, frame);
+	if (ret < 0) {
+		fprintf(stderr, "error sending a frame for encoding\n");
+		exit(1);
+	}
+
+	while (ret >= 0) {
+		int ret = avcodec_receive_packet(avCodecContext, pkt);
+		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+			return;
+		else if (ret < 0) {
+			fprintf(stderr, "error during encoding\n");
+			exit(1);
+		}
+
+		//fwrite(pkt->data, 1, pkt->size, outfile);
+		udpSend.send((char*)pkt->data, pkt->size);
+		av_packet_unref(pkt);
+
+	}
 }
